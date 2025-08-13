@@ -1,0 +1,4 @@
+::-webkit-scrollbar-thumb {
+    background: var(--carbon);
+    border-radius: 2px;
+}
