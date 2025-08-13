@@ -1,14 +1,19 @@
 use super::*;
 
+mod form;
+
 ::modwire::expose!(
     navbar
+    icon
 );
 
 #[derive(Debug, Clone, Routable, PartialEq)]
 #[rustfmt::skip]
 pub enum Route {
     #[route("/")]
-    Home {}
+    Home {},
+    #[route("/control-center")]
+    ControlCenter {}
 }
 
 #[component]
@@ -28,7 +33,65 @@ fn Home() -> Element {
                 top: rsx!(
                     Navbar {}
                 ),
-                
+                ::diogen::layout::Col {
+                    style: format!(
+                        r#"
+                            min-width: 100%;
+                            max-width: 100%;
+                            width: 100%;
+                            min-height: 100%;
+                            max-height: 100%;
+                            height: 100%;
+                            flex: 1;
+                        "#
+                    ),
+                    ::diogen::layout::Row {
+                        style: format!(
+                            r#"
+                                font-family: br cobane;
+                                font-weight: normal;
+                                font-size: {}px;
+                                color: white;
+                            "#,
+                            rho::from(2)
+                        ),
+                        "Sudo not included"
+                    }
+                }
+            }
+        }
+    )
+}
+
+
+#[component]
+fn ControlCenter() -> Element {
+    let selected: Signal<Option<&'static str>> = use_signal(|| None);
+    let toggled: Signal<_> = use_signal(|| false);
+
+    rsx!(
+        ::diogen::layout::Page {
+            scroll_snap: diogen::layout::PageScrollSnap::Proximity,
+            style: format!(
+                r#"
+                    background: {};
+                    color: {};
+                "#,
+                color::OBSIDIAN,
+                color::SILVER
+            ),
+            ::diogen::layout::PageItem {
+                top: rsx!(
+                    Navbar {}
+                ),
+                bottom: rsx!(
+                    div {}
+                ),
+                form::Root {
+                    form::Toggle {
+                        toggled
+                    }
+                }
             }
         }
     )
