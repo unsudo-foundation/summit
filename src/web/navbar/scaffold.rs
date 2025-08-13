@@ -20,14 +20,14 @@ pub fn Scaffold(props: ScaffoldProps) -> Element {
                     min-width: 100%;
                     max-width: 100%;
                     width: 100%;
-                    padding-top: {};
-                    padding-left: {};
-                    padding-right: {};
+                    padding-top: {}px;
+                    padding-left: {}px;
+                    padding-right: {}px;
                     {}
                 "#,
-                rho::from(3),
-                rho::from(3),
-                rho::from(3),
+                rho::from(1),
+                rho::from(1),
+                rho::from(1),
                 props.style.unwrap_or_default()
             ),
             if let Some(left) = props.left {
