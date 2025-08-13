@@ -16,9 +16,11 @@ pub fn Logo(props: LogoProps) -> Element {
                     font-size: {}px;
                     font-weight: normal;
                     color: {};
+                    user-select: none;
+                    cursor: pointer;
                     {}
                 "#,
-                rho::from(3),
+                rho::from(4),
                 color::SILVER,
                 props.style.unwrap_or_default()
             ),

@@ -10,7 +10,9 @@ use super::*;
 pub fn Navbar() -> Element {
     rsx!(
         Scaffold {
-            Logo {}
+            left: rsx!(
+                Logo {}
+            )
         }
     )
 }

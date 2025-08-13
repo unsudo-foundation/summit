@@ -28,7 +28,7 @@ fn Home() -> Element {
                 top: rsx!(
                     Navbar {}
                 ),
-                "Hello World"
+                
             }
         }
     )
