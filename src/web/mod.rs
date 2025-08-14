@@ -1,10 +1,10 @@
 use super::*;
 
 mod form;
+mod typography;
 
 ::modwire::expose!(
     navbar
-    gradient_typography
     icon
     redirect_icon
     redirect
@@ -146,6 +146,32 @@ mod color {
     pub static HONEY: &str = "#FF8000";
     pub static IMPERIAL_RED: &str = "#FF0004";
 
+    
+    #[derive(Debug)]
+    #[derive(Clone)]
+    #[derive(PartialEq)]
+    pub enum Color {
+        Hex(u32)
+    }
+
+    impl From<u32> for Color {
+        fn from(value: u32) -> Self {
+            if value > 0xffffff {
+                panic!("[ABORT] Value out of 24-bit RGB range: 0x{:X}", value);
+            }
+            Self::Hex(value)
+        }
+    }
+
+    impl ::std::fmt::Display for Color {
+        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            write!(f, "{}", match self {
+                Self::Hex(code) => format!("#{}", code)
+            })
+        }
+    }
+
+
     pub fn interpolate(range: (&str, &str), t: f32) -> String {
         let (rx, gx, bx) = hex_to_rgb(range.0);
         let (ry, gy, by) = hex_to_rgb(range.1);
@@ -251,5 +277,219 @@ mod rho {
         let ratio: f64 = 1.618f64;
         let value: f64 = base * ratio.powf(k as f64);
         value.round()
+    }
+}
+
+mod direction {
+    #[derive(Debug)]
+    #[derive(Clone)]
+    #[derive(PartialEq)]
+    pub enum Direction {
+
+    }
+}
+
+mod unit {
+    // TODO move to diogen.
+
+    pub trait Measurable 
+    where
+        Self: ::std::fmt::Display {}
+    impl Measurable for Absolute {}
+    impl Measurable for Relative {}
+    impl Measurable for Viewport {}
+    impl Measurable for Angle {}
+    impl Measurable for Time {}
+    impl Measurable for Frequency {}
+    impl Measurable for Resolution {}
+
+
+    #[derive(Clone)]
+    #[derive(PartialEq)]
+    pub struct Unit<T> 
+    where
+        T: Measurable {
+        pub measurement: T,
+        pub n: f64
+    }
+
+    impl<T> From<(T, f64)> for Unit<T> 
+    where
+        T: Measurable {
+        fn from(value: (T, f64)) -> Self {
+            Self {
+                measurement: value.0,
+                n: value.1
+            }
+        }
+    }
+
+
+    #[derive(Debug)]
+    #[derive(Clone)]
+    #[derive(PartialEq)]
+    #[derive(::strum_macros::EnumString)]
+    #[derive(::strum_macros::Display)]
+    #[strum(serialize_all = "lowercase")]
+    pub enum Absolute {
+        Px,
+        Cm,
+        Mm,
+        Q,
+        In,
+        Pc,
+        Pt
+    }
+
+    impl Absolute {
+        pub fn into_unit(self, n: f64) -> Unit<Self> {
+            Unit {
+                measurement: self,
+                n
+            }
+        }
+    }
+
+
+    #[derive(Debug)]
+    #[derive(Clone)]
+    #[derive(PartialEq)]
+    #[derive(::strum_macros::EnumString)]
+    #[derive(::strum_macros::Display)]
+    #[strum(serialize_all = "lowercase")]
+    pub enum Relative {
+        Em,
+        Ex,
+        Ch,
+        Rem,
+        Lh,
+        Rlh
+    }
+
+    impl Relative {
+        pub fn into_unit(self, n: f64) -> Unit<Self> {
+            Unit {
+                measurement: self,
+                n
+            }
+        }
+    }
+
+
+    #[derive(Debug)]
+    #[derive(Clone)]
+    #[derive(PartialEq)]
+    #[derive(::strum_macros::EnumString)]
+    #[derive(::strum_macros::Display)]
+    #[strum(serialize_all = "lowercase")]
+    pub enum Viewport {
+        Vw,
+        Vh,
+        Vmin,
+        Vmax,
+        Vb,
+        Vi,
+        Svw,
+        Svh,
+        Lvw,
+        Lvh,
+        Dvw,
+        Dvh
+    }
+
+    impl Viewport {
+        pub fn into_unit(self, n: f64) -> Unit<Self> {
+            Unit {
+                measurement: self,
+                n
+            }
+        }
+    }
+
+
+    #[derive(Debug)]
+    #[derive(Clone)]
+    #[derive(PartialEq)]
+    #[derive(::strum_macros::EnumString)]
+    #[derive(::strum_macros::Display)]
+    #[strum(serialize_all = "lowercase")]
+    pub enum Angle {
+        Grad,
+        Turn,
+        Deg,
+        Rad
+    }
+
+    impl Angle {
+        pub fn into_unit(self, n: f64) -> Unit<Self> {
+            Unit {
+                measurement: self,
+                n
+            }
+        }
+    }
+
+
+    #[derive(Debug)]
+    #[derive(Clone)]
+    #[derive(PartialEq)]
+    #[derive(::strum_macros::EnumString)]
+    #[derive(::strum_macros::Display)]
+    #[strum(serialize_all = "lowercase")]
+    pub enum Time {
+        S,
+        Ms
+    }
+
+    impl Time {
+        pub fn into_unit(self, n: f64) -> Unit<Self> {
+            Unit {
+                measurement: self,
+                n
+            }
+        }
+    }
+
+
+    #[derive(Debug)]
+    #[derive(Clone)]
+    #[derive(PartialEq)]
+    #[derive(::strum_macros::EnumString)]
+    #[derive(::strum_macros::Display)]
+    #[strum(serialize_all = "lowercase")]
+    pub enum Frequency {
+        Hz,
+        Khz
+    }
+
+    impl Frequency {
+        pub fn into_unit(self, n: f64) -> Unit<Self> {
+            Unit {
+                measurement: self,
+                n
+            }
+        }
+    }
+
+
+    #[derive(Debug)]
+    #[derive(Clone)]
+    #[derive(PartialEq)]
+    #[derive(::strum_macros::EnumString)]
+    #[derive(::strum_macros::Display)]
+    #[strum(serialize_all = "lowercase")]
+    pub enum Resolution {
+        Dpi,
+        Dpcm,
+        Dppx
+    }
+
+    impl Resolution {
+        pub fn into_unit(self, n: f64) -> Unit<Self> {
+            Unit {
+                measurement: self,
+                n
+            }
+        }
     }
 }

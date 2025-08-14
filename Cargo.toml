@@ -9,6 +9,10 @@ dependencies.dioxus.features = [
 ]
 dependencies.diogen.version = "0.2.0"
 dependencies.modwire.version = "*"
+dependencies.xxor.version = ">=0.1.0,<1.0.0"
+dependencies.paste.version = "*"
+dependencies.strum.version = "*"
+dependencies.strum_macros = "*"
 features.default = [
     "web"
 ]
