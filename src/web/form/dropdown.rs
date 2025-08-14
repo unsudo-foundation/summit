@@ -86,7 +86,7 @@ pub fn Dropdown(props: DropdownProps) -> Element {
                                     "#,
                                     Icon {
                                         url: asset!("asset/icon/chev_r.svg"),
-                                        size: "50px"
+                                        w: "50px"
                                     }
                                     { selectable }
                                 }

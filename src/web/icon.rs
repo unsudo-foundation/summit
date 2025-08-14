@@ -2,8 +2,8 @@ use super::*;
 
 #[derive(Props, Clone, PartialEq)]
 pub struct IconProps {
+    pub w: String,
     pub url: Asset,
-    pub size: String,
     pub class: Option<String>,
     pub style: Option<String>
 }
@@ -12,15 +12,22 @@ pub struct IconProps {
 pub fn Icon(props: IconProps) -> Element {
     rsx!(
         ::diogen::layout::Col {
-            style: r#"
-                width: {props.size};
-                background-image: url({props.url});
-                background-position: center;
-                background-size: contain;
-                background-repeat: no-repeat;
-                color: {color::SILVER};
-                {props.style.to_owned().unwrap_or_default()}
-            "#
+            style: format!(
+                r#"
+                    min-width: {};
+                    aspect-ratio: 1 / 1;
+                    background-image: url({});
+                    background-position: center;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    color: {};
+                    {}
+                "#,
+                props.w,
+                props.url,
+                color::SILVER,
+                props.style.to_owned().unwrap_or_default()
+            )
         }
     )
 }

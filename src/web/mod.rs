@@ -4,7 +4,10 @@ mod form;
 
 ::modwire::expose!(
     navbar
+    gradient_typography
     icon
+    redirect_icon
+    redirect
 );
 
 #[derive(Debug, Clone, Routable, PartialEq)]
@@ -36,26 +39,61 @@ fn Home() -> Element {
                 ::diogen::layout::Col {
                     style: format!(
                         r#"
-                            min-width: 100%;
-                            max-width: 100%;
-                            width: 100%;
-                            min-height: 100%;
-                            max-height: 100%;
-                            height: 100%;
+                            justify-content: start;
                             flex: 1;
                         "#
                     ),
-                    ::diogen::layout::Row {
+                    ::diogen::layout::Col {
                         style: format!(
                             r#"
-                                font-family: br cobane;
-                                font-weight: normal;
-                                font-size: {}px;
-                                color: white;
+                                min-width: 100%;
+                                min-height: 10px;
+                                border-width: 1px;
+                                border-style: solid;
+                                border-color: {};
+                                border-radius: 2px;
                             "#,
-                            rho::from(2)
+                            color::CARBON
                         ),
-                        "Sudo not included"
+                        // ICON GROUP
+                        ::diogen::layout::Row {
+                            style: format!(
+                                r#"
+                                    justify-content: start;
+                                    gap: 8px;
+                                "#
+                            ),
+                            for (w, url, to) in vec![
+                                ("15px", asset!("asset/icon/social/discord.svg"), "/"),
+                                ("15px", asset!("asset/icon/social/github.svg"), "/"),
+                                ("15px", asset!("asset/icon/social/medium.svg"), "/"),
+                                ("15px", asset!("asset/icon/social/telegram.svg"), "/"),
+                                ("15px", asset!("asset/icon/social/x.svg"), "/")
+                            ] {
+                                RedirectIcon { w, url, to }
+                            }                            
+                        }
+                        ::diogen::layout::Row {
+                            style: format!(
+                                r#"
+                                    font-size: 2em;
+                                    font-family: br cobane;
+                                    font-weight: bold;
+                                    background: linear-gradient(
+                                        to right bottom,
+                                        {},
+                                        {}
+                                    );
+                                    -webkit-background-clip: text;
+                                    -webkit-text-fill-color: transparent;
+                                    background-clip: text;
+                                    color: transparent;
+                                "#,
+                                color::SILVER,
+                                color::STEEL
+                            ),
+                            "Trustless by Design. Ruthless in Reliability."
+                        }
                     }
                 }
             }
