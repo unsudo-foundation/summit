@@ -88,9 +88,7 @@ fn ControlCenter() -> Element {
                     div {}
                 ),
                 form::Root {
-                    form::Toggle {
-                        toggled
-                    }
+                    
                 }
             }
         }
