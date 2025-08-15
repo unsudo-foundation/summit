@@ -92,6 +92,7 @@ pub fn MobileLogo(
 ) -> Element {
     rsx!(
         LaptopLogo {
+            class,
             style: r#"
                 font-size: 2em;
             "#
@@ -100,7 +101,7 @@ pub fn MobileLogo(
 }
 
 #[component]
-pub fn To(
+pub fn LaptopLinkButton(
     to: String,
     class: Option<String>,
     style: Option<String>,
@@ -146,10 +147,10 @@ pub fn LaptopLinkGroup() -> Element {
                 align-items: center;
                 gap: 32px;
             "#,
-            To { to: "/", "Whitepaper" }
-            To { to: "/", "About" }
-            To { to: "/", "Roadmap" }
-            To { to: "/", "Community" }
+            LaptopLinkButton { to: "/", "Whitepaper" }
+            LaptopLinkButton { to: "/", "About" }
+            LaptopLinkButton { to: "/", "Roadmap" }
+            LaptopLinkButton { to: "/", "Community" }
         }
     )
 }
