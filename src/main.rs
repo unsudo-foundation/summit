@@ -1,6 +1,7 @@
 use ::dioxus::prelude::*;
 
-pub mod web;
+mod host;
+mod web;
 
 #[component]
 fn Main() -> Element {

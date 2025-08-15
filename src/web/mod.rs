@@ -1,6 +1,8 @@
 use super::*;
+use route::home::Home as HomeRoute;
 
 mod form;
+mod route;
 
 ::modwire::expose!(
     navbar
@@ -13,108 +15,10 @@ mod form;
 #[rustfmt::skip]
 pub enum Route {
     #[route("/")]
-    Home {},
+    HomeRoute {},
     #[route("/control-center")]
     ControlCenter {}
 }
-
-#[component]
-fn Home() -> Element {
-    rsx!(
-        ::diogen::layout::Page {
-            scroll_snap: diogen::layout::PageScrollSnap::Proximity,
-            style: format!(
-                r#"
-                    background: {};
-                    color: {};
-                "#,
-                color::OBSIDIAN,
-                color::SILVER
-            ),
-            ::diogen::layout::PageItem {
-                top: rsx!(
-                    Navbar {}
-                ),
-                ::diogen::layout::Col {
-                    style: format!(
-                        r#"
-                            justify-content: start;
-                            flex: 1;
-                        "#
-                    ),
-                    form::Root {
-                        style: format!(
-                            r#"
-                                min-width: 200px;
-                                
-                            "#
-                        ),
-                        form::Dropdown {
-                            form::DropdownLabel { "Hello World" }
-                            form::DropdownSelect {
-                                form::DropdownOption { "Option" }
-                                form::DropdownOption { "HI" }
-                            }
-                        }
-                    }
-                    ::diogen::layout::Col {
-                        style: format!(
-                            r#"
-                                min-width: 100%;
-                                min-height: 10px;
-                                border-width: 1px;
-                                border-style: solid;
-                                border-color: {};
-                                border-radius: 2px;
-                            "#,
-                            color::CARBON
-                        ),
-                        // ICON GROUP
-                        ::diogen::layout::Row {
-                            style: format!(
-                                r#"
-                                    justify-content: start;
-                                    gap: 8px;
-                                "#
-                            ),
-                            for (w, url, to) in vec![
-                                ("15px", asset!("asset/icon/social/discord.svg"), "/"),
-                                ("15px", asset!("asset/icon/social/github.svg"), "/"),
-                                ("15px", asset!("asset/icon/social/medium.svg"), "/"),
-                                ("15px", asset!("asset/icon/social/telegram.svg"), "/"),
-                                ("15px", asset!("asset/icon/social/x.svg"), "/")
-                            ] {
-                                RedirectIcon { w, url, to }
-                            }                            
-                        }
-                        ::diogen::layout::Row {
-                            style: format!(
-                                r#"
-                                    font-size: 2em;
-                                    font-family: br cobane;
-                                    font-weight: bold;
-                                    background: linear-gradient(
-                                        to right bottom,
-                                        {},
-                                        {}
-                                    );
-                                    -webkit-background-clip: text;
-                                    -webkit-text-fill-color: transparent;
-                                    background-clip: text;
-                                    color: transparent;
-                                "#,
-                                color::SILVER,
-                                color::STEEL
-                            ),
-                            "Trustless by Design. Ruthless in Reliability."
-                        }
-                    }
-                }
-            }
-        }
-    )
-}
-
 
 #[component]
 fn Sale() -> Element {
@@ -168,4 +72,39 @@ mod color {
     pub static SPRING: Color = Color::from_hex(0x00a676);
     pub static HONEY: Color = Color::from_hex(0xff8000);
     pub static IMPERIAL_RED: Color = Color::from_hex(0xff0004);
+}
+
+mod marker {
+    //! Marks incomplete or problematic sections without breaking the interface.
+    //! Lets users and developers continue using the app safely.
+    
+    use super::*;
+
+    #[component]
+    pub fn NotImplemented(
+        class: Option<&'static str>,
+        style: Option<&'static str>,
+        children: Option<Element>
+    ) -> Element {
+        rsx!(
+            div {
+                class,
+                style: r#"
+                    font-size: 1em;
+                    font-family: br cobane;
+                    font-weight: normal;
+                    color: {color::HONEY};
+                    {style.to_owned().unwrap_or_default()}
+                "#,
+                if let Some(children) = children {
+                    span {
+                        span { "NotImplemented: " }
+                        span { { children } }
+                    }
+                } else {
+                    "NotImplemented"
+                }
+            }
+        )
+    }
 }

@@ -9,6 +9,7 @@ dependencies.dioxus.features = [
 ]
 dependencies.diogen.version = ">=0.5.2,<1.0.0"
 dependencies.modwire.version = "*"
+dependencies.once_cell.version = "*"
 features.default = [
     "web"
 ]

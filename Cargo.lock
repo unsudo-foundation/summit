@@ -4039,6 +4039,7 @@ dependencies = [
  "diogen",
  "dioxus",
  "modwire",
+ "once_cell",
 ]
 
 [[package]]
