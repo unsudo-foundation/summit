@@ -3,6 +3,7 @@ use super::*;
 ::modwire::expose!(
     pub dropdown
     pub input_field
+    pub rack
     pub toggle
 );
 
@@ -16,14 +17,13 @@ pub struct RootProps {
 #[component]
 pub fn Root(props: RootProps) -> Element {
     rsx!(
-        ::diogen::layout::Col {
-            style: r#"
-                border-width: 1px;
-                border-style: solid;
-                border-color: {color::JET};
-                border-radius: 2px;
-                padding: 10px;
-            "#,
+        form {
+            style: format!(
+                r#"
+                    {}
+                "#,
+                props.style.unwrap_or_default()
+            ),
             { props.children }
         }
     )

@@ -25,9 +25,9 @@ pub fn Scaffold(props: ScaffoldProps) -> Element {
                     padding-right: {}px;
                     {}
                 "#,
-                rho::from(1),
-                rho::from(1),
-                rho::from(1),
+                10,
+                10,
+                10,
                 props.style.unwrap_or_default()
             ),
             if let Some(left) = props.left {

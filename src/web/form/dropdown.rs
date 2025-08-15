@@ -1,10 +1,9 @@
 use super::*;
 
-
-#[derive(Props, Clone, PartialEq)]
+#[derive(Props)]
+#[derive(Clone)]
+#[derive(PartialEq)]
 pub struct DropdownProps {
-    pub selected: Signal<Option<&'static str>>,
-    pub selectable: Vec<&'static str>,
     pub class: Option<String>,
     pub style: Option<String>,
     pub children: Option<Element>
@@ -12,89 +11,111 @@ pub struct DropdownProps {
 
 #[component]
 pub fn Dropdown(props: DropdownProps) -> Element {
-    let selected: Signal<_> = props.selected.to_owned();
-    let toggled: Signal<bool> = use_signal(|| false);
-
     rsx!(
         div {
-            style: r#"display: contents"#,
-            ::diogen::layout::Col {
-                style: r#"
+            class: props.class,
+            style: format!(
+                r#"
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: start;
                     align-items: start;
-                    {props.style.to_owned().unwrap_or_default()}
+                    min-width: 100%;
+                    flex: 1;
+                    {}
                 "#,
-                div {
-                    onclick: {
-                        let mut toggled: Signal<_> = toggled.to_owned();
-                        move |_| {
-                            toggled.set(!toggled());
-                        }
-                    },
-                    style: format!(
-                        r#"
-                            display: contents;
-                        "#
-                    ),
-                    ::diogen::layout::Row {
-                        style: r#"
-                            font-size: 32px;
-                            font-family: br cobane;
-                            font-weight: normal;
-                            color: {color::SILVER};
-                            user-select: none;
-                            cursor: pointer;
-                        "#,
-                        if let Some(selected) = selected() {
-                            { selected }
-                        } else {
-                            { props.children }
-                        }
-                    }
-                }
-                if toggled() {
-                    ::diogen::layout::Col {
-                        style: r#"
-                            justify-content: start;
-                            align-items: start;
-                            position: absolute;
-                            transform: translate(0, 100%);
-                            border-width: 1px;
-                            border-style: solid;
-                            border-color: {color::JET};
-                            border-radius: 2px;
-                            gap: 8px;
-                        "#,
-                        for selectable in props.selectable {
-                            div {
-                                onclick: {
-                                    let mut selected: Signal<_> = selected.to_owned();
-                                    let mut toggled: Signal<_> = toggled.to_owned();
-                                    move |_| {
-                                        selected.set(Some(selectable));
-                                        toggled.set(false);
-                                    }
-                                },
-                                style: r#"display: contents"#,
-                                ::diogen::layout::Row {
-                                    style: r#"
-                                        justify-content: start;
-                                        font-size: 16px;
-                                        font-family: br cobane;
-                                        font-weight: normal;
-                                        cursor: pointer;
-                                        user-select: none;
-                                    "#,
-                                    Icon {
-                                        url: asset!("asset/icon/chev_r.svg"),
-                                        w: "50px"
-                                    }
-                                    { selectable }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+                props.style.unwrap_or_default()
+            ),
+            { props.children }
+        }
+    )
+}
+
+
+#[derive(Props)]
+#[derive(Clone)]
+#[derive(PartialEq)]
+pub struct DropdownLabelProps {
+    pub class: Option<String>,
+    pub style: Option<String>,
+    pub children: Option<Element>
+}
+
+#[component]
+pub fn DropdownLabel(props: DropdownLabelProps) -> Element {
+    rsx!(
+        label {
+            class: props.class,
+            style: format!(
+                r#"
+                    font-size: 1em;
+                    font-family: br cobane;
+                    font-weight: normal;
+                    {}
+                "#,
+                props.style.unwrap_or_default()
+            ),
+            { props.children }
+        }
+    )
+}
+
+
+#[derive(Props)]
+#[derive(Clone)]
+#[derive(PartialEq)]
+pub struct DropdownSelectProps {
+    pub class: Option<String>,
+    pub style: Option<String>,
+    pub children: Option<Element>
+}
+
+#[component]
+pub fn DropdownSelect(props: DropdownSelectProps) -> Element {
+    rsx!(
+        select {
+            class: props.class,
+            style: format!(
+                r#"
+                    {}
+                "#,
+                props.style.unwrap_or_default()
+            ),
+            { props.children }
+        }
+    )
+}
+
+
+#[derive(Props)]
+#[derive(Clone)]
+#[derive(PartialEq)]
+pub struct DropdownOptionProps {
+    pub class: Option<String>,
+    pub style: Option<String>,
+    pub children: Option<Element>
+}
+
+#[component]
+pub fn DropdownOption(props: DropdownOptionProps) -> Element {
+    rsx!(
+        option {
+            class: props.class,
+            style: format!(
+                r#"
+                    font-size: 1em;
+                    font-family: br cobane;
+                    font-weight: normal;
+                    color: black;
+                    cursor: pointer;
+                    user-select: none;
+                    background: transparent;
+                    padding: 2px;
+                    {}
+                "#,
+                props.style.unwrap_or_default()
+            ),
+            { props.children }
         }
     )
 }

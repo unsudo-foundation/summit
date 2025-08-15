@@ -13,14 +13,14 @@ pub fn Logo(props: LogoProps) -> Element {
             style: format!(
                 r#"
                     font-family: alien skyline;
-                    font-size: {}px;
+                    font-size: {}em;
                     font-weight: normal;
                     color: {};
                     user-select: none;
                     cursor: pointer;
                     {}
                 "#,
-                rho::from(4),
+                1.5f64,
                 color::SILVER,
                 props.style.unwrap_or_default()
             ),

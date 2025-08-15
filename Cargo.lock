@@ -772,9 +772,9 @@ dependencies = [
 
 [[package]]
 name = "diogen"
-version = "0.2.0"
+version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8ec088b6ec4d95078d3d2126d39839fa582251d48187245cf059ba0f74bcaf71"
+checksum = "e0c221175b73c2cdd0b242781ea2026a863a75e5c773cb0de7b2172523bb2b7f"
 dependencies = [
  "dioxus",
  "js-sys",
@@ -782,6 +782,9 @@ dependencies = [
  "paste",
  "serde",
  "serde-wasm-bindgen 0.6.5",
+ "strum",
+ "strum_macros",
+ "thiserror 2.0.14",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
@@ -4036,10 +4039,6 @@ dependencies = [
  "diogen",
  "dioxus",
  "modwire",
- "paste",
- "strum",
- "strum_macros",
- "xxor",
 ]
 
 [[package]]
@@ -5319,12 +5318,6 @@ name = "xxhash-rust"
 version = "0.8.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fdd20c5420375476fbd4394763288da7eb0cc0b8c11deed431a91562af7335d3"
-
-[[package]]
-name = "xxor"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "03cafe316ed4034c38cb503380168717d78e409186c34f2a3a8f2d9bddcb6485"
 
 [[package]]
 name = "yoke"
